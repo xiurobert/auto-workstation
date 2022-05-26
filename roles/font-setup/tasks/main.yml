@@ -2,7 +2,6 @@
   stat:
     path: /home/{{ ansible_user_id }}/.fonts
   register: fonts_stat
-
 - name: Make fonts directory
   file:
     path: /home/{{ ansible_user_id }}/.fonts

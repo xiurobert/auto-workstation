@@ -1,18 +1,36 @@
 - hosts: all
-  become: true
-  vars: 
-    node_version: 16
-    jb_toolbox_ver: 1.24.11947
-
   pre_tasks:
     - name: Update apt cache
+      become: true
       apt:
         update_cache: yes
 
   roles:
     - role: bootstrap
+      become: true
     - role: install-docker-engine
-    - role: language-sdks
-    - role: tools
+      become: true
+    - role: old-python
+      become: true
+    - role: nodejs
+      become: true
+      vars:
+        node_version: 16
+    - role: hurricanehrndz.rustup  
+      vars:
+        rustup_cargo_crates: []
+    - role: jetbrains
+      vars:
+        jb_toolbox_ver: 1.24.11947
     - role: apps
-    - role: customization
+    - role: jdk
+      become: true
+      
+    - role: font-setup
+    - role: make-dirs
+
+  tasks:
+  - name: Installs VSCode
+    apt:
+      deb: 'https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64'
+  
