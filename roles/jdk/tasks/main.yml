@@ -2,4 +2,4 @@
   apt:
     pkg:
       - openjdk-17-jdk
-  update_cache: yes
+    update_cache: yes

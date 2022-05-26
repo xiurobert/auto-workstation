@@ -8,8 +8,10 @@
   roles:
     - role: bootstrap
       become: true
+    
     - role: install-docker-engine
       become: true
+    
     - role: old-python
       become: true
     - role: nodejs
@@ -19,18 +21,18 @@
     - role: hurricanehrndz.rustup  
       vars:
         rustup_cargo_crates: []
+    - role: jdk
+      become: true
+    
     - role: jetbrains
       vars:
         jb_toolbox_ver: 1.24.11947
     - role: apps
-    - role: jdk
+      become: true
+    - role: vscode
       become: true
       
     - role: font-setup
     - role: make-dirs
-
-  tasks:
-  - name: Installs VSCode
-    apt:
-      deb: 'https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64'
+  
   
