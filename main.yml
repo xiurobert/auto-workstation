@@ -4,8 +4,14 @@
       become: true
       apt:
         update_cache: yes
+    - name: Stop packagekit
+      become: true
+      systemd:
+        name: packagekit
+        state: stopped
 
   roles:
+
     - role: bootstrap
       become: true
     
@@ -34,5 +40,10 @@
       
     - role: font-setup
     - role: make-dirs
-  
+
+  tasks:
+    - name: Start packagekit
+      systemd:
+        name: packagekit
+        state: started
   

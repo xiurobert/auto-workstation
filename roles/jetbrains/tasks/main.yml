@@ -1,7 +1,6 @@
 - name: Check if jetbrains-toolbox is already installed
-  file:
+  stat:
     path: "/home/{{ ansible_user_id }}/.tools/jetbrains-toolbox-{{ jb_toolbox_ver }}"
-    state: directory
   register: jb_toolbox_installed
 
 - name: Make directories
@@ -10,7 +9,7 @@
     state: directory
 - name: Download Jetbrains Toolbox
   changed_when: jb_toolbox_installed.changed
-  when: jb_toolbox_installed.stat.exists is defined and jb_toolbox_installed.stat.exists is False
+  when: jb_toolbox_installed.exists is defined and jb_toolbox_installed.exists is False
   get_url:
     url: "https://download.jetbrains.com/toolbox/jetbrains-toolbox-{{ jb_toolbox_ver }}.tar.gz"
     dest: "/home/{{ ansible_user_id }}/.tools/jetbrains-toolbox.tar.gz"
