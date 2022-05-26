@@ -1,0 +1,11 @@
+- name: Install Python
+  import_tasks: python.yml
+- name: Install NodeJS
+  import_tasks: nodejs.yml
+- name: Install Rust
+  import_tasks: rust.yml
+- name: Install OpenJDK 17
+  apt:
+    pkg:
+      - openjdk-17-jdk
+    update_cache: yes

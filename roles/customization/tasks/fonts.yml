@@ -1,0 +1,20 @@
+- name: Check if fonts are already installed
+  stat:
+    path: /home/{{ ansible_user_id }}/.fonts
+  register: fonts_stat
+
+- name: Make fonts directory
+  file:
+    path: /home/{{ ansible_user_id }}/.fonts
+    state: directory
+- name: Extracts Jetbrains Mono
+  when: fonts_stat.stat.exists == False
+  unarchive:
+    remote_src: true
+    src: https://download.jetbrains.com/fonts/JetBrainsMono-2.242.zip
+    dest: /home/{{ ansible_user_id }}/.fonts/
+    creates: /home/{{ ansible_user_id }}/.fonts/JetbrainsMono-2.242
+  register: extracted_jetbrains_mono
+- name: Refresh font cache
+  shell: "fc-cache -f -v"
+  when: extracted_jetbrains_mono.changed is true

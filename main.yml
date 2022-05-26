@@ -1,0 +1,18 @@
+- hosts: all
+  become: true
+  vars: 
+    node_version: 16
+    jb_toolbox_ver: 1.24.11947
+
+  pre_tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+  roles:
+    - role: bootstrap
+    - role: install-docker-engine
+    - role: language-sdks
+    - role: tools
+    - role: apps
+    - role: customization

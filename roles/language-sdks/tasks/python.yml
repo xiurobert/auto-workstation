@@ -1,0 +1,8 @@
+- name: Add deadsnakes PPA
+  apt_repository:
+    repo: 'ppa:deadsnakes/ppa'
+- name: Install python 3.9
+  apt:
+    pkg:
+      - python3.9
+    update_cache: true

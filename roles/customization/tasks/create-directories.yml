@@ -1,0 +1,20 @@
+- name: Create programming directory
+  file:
+    path: /home/{{ ansible_user_id }}/Programming
+    state: directory
+    mode: 0775
+- name: Create OpenSource directory
+  file:
+    path: /home/{{ ansible_user_id }}/Programming/OpenSource
+    state: directory
+    mode: 0775
+- name: Create Work directory
+  file:
+    path: /home/{{ ansible_user_id }}/Programming/Work
+    state: directory
+    mode: 0775
+- name: Create Programming/Personal directory
+  file:
+    path: /home/{{ ansible_user_id }}/Programming/Personal
+    state: directory
+    mode: 0775

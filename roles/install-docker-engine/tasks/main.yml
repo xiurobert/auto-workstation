@@ -1,0 +1,67 @@
+
+- block: 
+  - name: Purge old versions of docker
+    apt:
+      state: absent
+      pkg:
+        - docker
+        - docker-engine
+        - docker.io
+        - containerd
+        - runc
+    
+  - name: Install necessary packages
+    apt:
+      state: present
+      pkg:
+        - ca-certificates
+        - curl
+        - gnupg
+        - lsb-release
+
+
+  - name: Add Docker GPG APT key
+    apt_key:
+      url: "https://download.docker.com/{{ ansible_system | lower }}/ubuntu/gpg"
+      state: present
+
+  - name: Dump APT repo information
+    debug:
+      msg: "kernel: {{ ansible_system | lower }} | distro: {{ ansible_distribution }} | codename: {{ ansible_distribution_release }}"
+  - name: Add docker's repository
+    apt_repository:
+      # TODO: ansible_distrbution produces incorrect output for pop_os
+      repo: "deb [arch=amd64] https://download.docker.com/{{ ansible_system | lower }}/ubuntu {{ ansible_distribution_release }} stable"
+      state: present
+    
+  - name: Install docker components
+    apt:
+      update_cache: yes
+      pkg:
+        - docker-ce
+        - docker-ce-cli
+        - containerd.io
+        - docker-compose
+  - name: Create docker group
+    group:
+      name: docker
+
+  - name: Add "{{ ansible_user_id }}" to docker group
+    user:
+      name: "{{ ansible_user_id }}"
+      groups: docker
+      append: yes
+  become: true
+
+- name: reset ssh connection to allow user changes to affect ansible user
+  meta:
+    reset_connection
+
+- name: "Test docker installation"
+  shell: "docker ps"
+  changed_when: false
+  failed_when: false
+- name: "Test docker-compose installation"
+  shell: "docker-compose --version"
+  changed_when: false
+  failed_when: false

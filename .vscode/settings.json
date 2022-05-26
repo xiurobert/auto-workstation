@@ -1,0 +1,13 @@
+{
+    "yaml.schemas": {
+        "https://raw.githubusercontent.com/ansible-community/schemas/main/f/ansible.json#/$defs/playbook": [
+            "file:///home/xiurobert/ansible/install.yml",
+            "file:///home/xiurobert/ansible/jetbrains.yml",
+            "file:///home/xiurobert/ansible/packages.yml",
+            "file:///home/xiurobert/ansible/create-directories.yml",
+            "file:///home/xiurobert/ansible/tools/playbook-tools.yml",
+            "file:///home/xiurobert/ansible/customization/fonts.yml"
+        ],
+        "https://raw.githubusercontent.com/ansible-community/schemas/main/f/ansible-vars.json": "file:///home/xiurobert/ansible/vars.yml"
+    }
+}

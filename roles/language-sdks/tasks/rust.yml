@@ -1,0 +1,22 @@
+
+- name: Check if cargo exists
+  stat:
+    path: "/home/{{ ansible_user_id }}/.cargo"
+  register: cargo_exists
+
+- name: Download rustup installer
+  when: cargo_exists.stat.exists == False
+  get_url:
+    url: https://sh.rustup.rs
+    dest: /tmp/rustup-init.sh
+    mode: 0755
+  
+- name: Run rustup installer
+  when: cargo_exists.stat.exists == False
+  shell: /tmp/rustup-init.sh -y
+  
+- name: Cleanup rustup installer
+  file:
+    path: /tmp/rustup-init.sh
+    state: absent
+

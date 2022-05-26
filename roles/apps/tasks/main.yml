@@ -1,0 +1,6 @@
+- name: Installs firefox
+  apt:
+    pkg: firefox
+- name: Installs discord
+  apt:
+    deb: https://discord.com/api/download?platform=linux&format=deb

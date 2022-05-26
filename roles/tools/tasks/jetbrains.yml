@@ -1,0 +1,34 @@
+
+- name: Check if jetbrains-toolbox is already installed
+  file:
+    path: "/home/{{ ansible_user_id }}/.tools/jetbrains-toolbox-{{ jb_toolbox_ver }}"
+    state: directory
+  register: jb_toolbox_installed
+
+- name: Make directories
+  file:
+    path: "/home/{{ ansible_user_id }}/.tools"
+    state: directory
+- name: Download Jetbrains Toolbox
+  changed_when: jb_toolbox_installed.changed
+  when: jb_toolbox_installed.stat.exists is defined and jb_toolbox_installed.stat.exists is False
+  get_url:
+    url: "https://download.jetbrains.com/toolbox/jetbrains-toolbox-{{ jb_toolbox_ver }}.tar.gz"
+    dest: "/home/{{ ansible_user_id }}/.tools/jetbrains-toolbox.tar.gz"
+    mode: 0755
+  register: jb_toolbox_downloaded
+
+- name: Extract Jetbrains Toolbox
+  when: jb_toolbox_downloaded.changed is true
+  unarchive:
+    remote_src: true
+    src: "/home/{{ ansible_user_id }}/.tools/jetbrains-toolbox.tar.gz"
+    dest: "/home/{{ ansible_user_id }}/.tools/"
+    creates: "/home/{{ ansible_user_id }}/.tools/jetbrains-toolbox-{{ jb_toolbox_ver }}"
+  register: toolbox_extracted
+
+- name: Delete Jetbrains Toolbox archive
+  when: toolbox_extracted.changed is true
+  file:
+    path: "/home/{{ ansible_user_id }}/.tools/jetbrains-toolbox.tar.gz"
+    state: absent
